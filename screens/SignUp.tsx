@@ -1,12 +1,12 @@
 import * as React from 'react';
 import {ActivityIndicator, Dimensions, Pressable} from 'react-native';
 import styled from 'styled-components/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NativeStackScreenProps} from "@react-navigation/native-stack";
 import {Input} from "../components/Input";
 import {Button} from "../components/Button";
 import {RootStackParamList} from "./screen";
 import axios from '../helpers/axios';
+import {user} from "../stores/jwt";
 
 const {width, height} = Dimensions.get("window");
 
@@ -42,7 +42,7 @@ function SignUpScreen(props: mainScreenProp) {
         password,
       });
       if (res.data.msg) {
-        await AsyncStorage.setItem('jwt', res.headers.jwt);
+        await user.setJwt(res.headers.jwt);
         setLoading(false);
         props.navigation.replace('TodoMainScreen');
       }

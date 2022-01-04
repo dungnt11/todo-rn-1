@@ -9,23 +9,18 @@ const instance = axios.create({
   }
 });
 
-instance.setToken = (token) => {
-  instance.defaults.headers['jwt'] = token;
-  AsyncStorage.setItem('jwt', token);
-}
-
-instance.interceptors.response.use((response) => {
+instance.interceptors.response.use(async (response) => {
   const {isRefreshToken, token} = response.data;
 
   if (isRefreshToken) {
-    instance.setToken(token);
     const config = response.config
     config.headers['jwt'] = token
-    config.baseURL = 'https://todo.ehandytech.com/'
-    return instance(config);
+    config.baseURL = 'https://todo.ehandytech.com/';
+    await AsyncStorage.setItem('jwt', token);
+    return instance(config)
   }
 
-  return response
+  return response;
 }, (error) => {
   console.log(error)
   return Promise.reject(error)

@@ -3,13 +3,13 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useFonts} from 'expo-font';
 import AppLoading from 'expo-app-loading';
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from './helpers/axios';
 
 // Screens
 import {LoginScreen} from './screens/Login';
 import {SignUpScreen} from './screens/SignUp';
 import {TodoMainScreen} from "./screens/TodoMain";
+import {user} from "./stores/jwt";
 
 const Stack = createNativeStackNavigator();
 
@@ -18,11 +18,9 @@ function App() {
 
   React.useEffect(() => {
     setLoading(true);
-    AsyncStorage.getItem('jwt').then((res) => {
-      (axios as any).defaults.headers.common['jwt'] = res;
-    }).finally(() => {
+    user.setJwtLocalStorage().then(() => {
       setLoading(false);
-    })
+    });
   }, []);
 
   const [loaded] = useFonts({
