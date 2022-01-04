@@ -15,13 +15,11 @@ const Stack = createNativeStackNavigator();
 
 function App() {
   const [loading, setLoading] = React.useState(false);
-  const [initRouterName, setInitRouterName] = React.useState('Login');
 
   React.useEffect(() => {
     setLoading(true);
     AsyncStorage.getItem('jwt').then((res) => {
       (axios as any).defaults.headers.common['jwt'] = res;
-      setInitRouterName('TodoMainScreen');
     }).finally(() => {
       setLoading(false);
     })
@@ -36,7 +34,7 @@ function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={initRouterName}
+        initialRouteName="Login"
       >
         <Stack.Screen
           options={{headerShown: false, gestureEnabled: false}}

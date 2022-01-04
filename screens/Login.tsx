@@ -36,11 +36,11 @@ function LoginScreen(props: mainScreenProp) {
       });
       if (res.data.msg) {
         await AsyncStorage.setItem('jwt', res.headers.jwt);
+        setLoading(false);
         props.navigation.replace('TodoMainScreen');
       }
     } catch {
       setError('Đăng nhập thất bại');
-    } finally {
       setLoading(false);
     }
   }

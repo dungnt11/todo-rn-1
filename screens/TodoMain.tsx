@@ -83,7 +83,7 @@ const TodoMainScreen: React.FC = () => {
       />
 
       <TextAlert>
-        Xin chào, Dung Nguyen.
+        Xin chào.
       </TextAlert>
 
       <Main>
